@@ -1,11 +1,9 @@
 import java.util.Scanner;
 
-
 public class ATM {
 
     void login() {
        Scanner login = new Scanner(System.in);
-
        int balance = 10000;
        System.out.println("Select the option: ");
        while(true)
@@ -38,14 +36,16 @@ public class ATM {
                    }
                    else {
                        System.out.println(GREEN +"Deposited Successfully"+RESET);
+                       balance = balance + deposit;
                    }
                    break;
                case 2:
-                   System.out.printf("Enter Withdraw amount");
+                   System.out.printf("Enter Withdraw amount: ");
                    int withdraw = login.nextInt();
                    if (withdraw < 0)
                    {
                        System.out.println(RED +"Invalid withdraw amount: "+RESET);
+
                    }
                    else if (withdraw > balance)
                    {
@@ -53,6 +53,7 @@ public class ATM {
                    }
                    else {
                        System.out.println(GREEN+"Withdraw Successfully"+RESET);
+                       balance = balance - withdraw;
                    }
                    break;
                case 3:
@@ -87,20 +88,45 @@ public class ATM {
             System.out.println("       💳 WELCOME TO ATM 💳       ");
             System.out.println(BLUE + "=================================" + RESET);
 
-            int correctPin = 1234;
+
+
+            System.out.println("Set your pin: ");
+            String pin = input.nextLine();
+            if (pin.length() != 4 || !pin.matches("\\d+"))
+            {
+                System.out.println(RED+"Invalid pin. Pin must be 4 digits"+RESET);
+                return;
+            }
+            else
+            {
+                System.out.println(GREEN+"Set successfully");
+            }
+
+
 
             for (int i = 1; i <= 3; i++) {
                 System.out.printf("Enter the pin= ");
-                int enteredPin = input.nextInt();
-                if (correctPin == enteredPin) {
+                String correctPin = input.nextLine();
+                if (correctPin.length() == 4 && correctPin.equals(pin)) {
                     atm.login();
                     break;
-                } else {
-                      System.out.println("Wrong pin, Attempts left: " + (3-i));
+                }
+                else if (!correctPin.matches("\\d+")){
+                      System.out.println("Invalid pin,Pin must be digits! \n Attempts left: " + (3-i));
+                }
+                else if (correctPin.length()!=4) {
+                    System.out.println("Invalid pin,Pin length must be 4 \n Attempts left: " + (3-i));
+
+                }
+                else
+                {
+                    System.out.println("Wrong Pin, Attempts left: " + (3-i));
                 }
 
 
             }
         }
+
+
 
 }
